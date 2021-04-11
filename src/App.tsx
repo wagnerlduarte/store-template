@@ -152,7 +152,7 @@ const getDetailsData = (data: DetailData) => {
     case 'track':
       se.imageUrl = data.album.images[0].url
       se.title = data.name
-      se.subtitle = data.artists[0].name
+      se.subtitle = data.artists.map((artist) => artist.name).join(', ')
       break
     case 'artist':
       se.imageUrl = data.images[0].url
