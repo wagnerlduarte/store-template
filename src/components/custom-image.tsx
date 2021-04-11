@@ -17,7 +17,7 @@ const CustomImage = ({ customImage, urlImage }: Props) => {
     if (!loading && Object.keys(pallete).length) {
       const uri = apiService.getUri(urlImage)
 
-      const palleteProperty: keyof PaletteColors = 'muted'
+      const palleteProperty: keyof PaletteColors = 'lightVibrant'
 
       const backgroundBarColor = pallete[palleteProperty]?.replace('#', '') ?? '000000'
 
@@ -25,31 +25,27 @@ const CustomImage = ({ customImage, urlImage }: Props) => {
 
       const barColor = palleteColor ? getBarColor(palleteColor) : 'white'
 
-      console.log(barColor)
-      console.log(pallete)
-
-      setCustomCode(`https://scannables.scdn.co/uri/plain/jpeg/${backgroundBarColor}/white/640/${uri.uriLink}`)
+      setCustomCode(`https://scannables.scdn.co/uri/plain/jpeg/${backgroundBarColor}/${barColor}/640/${uri.uriLink}`)
     }
   }, [pallete, loading])
 
   return (
     <>
-      <div
+      <img
+        src={customImage}
         style={{
-          backgroundImage: `url('${customImage}')`,
-          backgroundRepeat: 'round',
-          height: 350,
-          width: 378,
+          height: '64%',
+          width: '81%',
+          marginTop: 65,
         }}
-      ></div>
-      <div
+      />
+      <img
+        src={customCode}
         style={{
-          backgroundImage: `url('${customCode}')`,
-          backgroundRepeat: 'round',
-          height: 100,
-          width: 378,
+          height: '16%',
+          width: '81%',
         }}
-      ></div>
+      />
     </>
   )
 }
