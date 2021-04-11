@@ -31,21 +31,25 @@ const CustomImage = ({ customImage, urlImage }: Props) => {
 
   return (
     <>
-      <img
-        src={customImage}
+      <div
         style={{
+          marginTop: 65,
+          backgroundImage: `url('${customImage}')`,
+          background: 'no-repeat center',
+          backgroundSize: 'cover',
           height: '64%',
           width: '81%',
-          marginTop: 65,
         }}
-      />
-      <img
-        src={customCode}
+      ></div>
+      <div
         style={{
+          backgroundImage: `url('${customCode}')`,
+          background: 'no-repeat center',
+          backgroundSize: 'cover',
           height: '16%',
           width: '81%',
         }}
-      />
+      ></div>
     </>
   )
 }
