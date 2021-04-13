@@ -52,114 +52,127 @@ export default function App() {
 
   return (
     <div className="App">
-      <div>
-        <label>Spotify Link: </label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setUrlInputValue(event.currentTarget.value)
-          }}
-        />
-      </div>
-      <br />
+      <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+          <fieldset>
+            <legend>Conteúdo padrão</legend>
+            <div>
+              <label>Spotify Link: </label>
+              <input
+                type="text"
+                onChange={(event) => {
+                  setUrlInputValue(event.currentTarget.value)
+                }}
+              />
+            </div>
+            <br />
 
-      <div>
-        <label>Título (opcional): </label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setTitleInputValue(event.currentTarget.value)
-          }}
-        />
-      </div>
-      <br />
+            <div>
+              <label>Título (opcional): </label>
+              <input
+                type="text"
+                onChange={(event) => {
+                  setTitleInputValue(event.currentTarget.value)
+                }}
+              />
+            </div>
+            <br />
 
-      <div>
-        <label>Subtítulo (opcional): </label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setSubtitleInputValue(event.currentTarget.value)
-          }}
-        />
-      </div>
-      <br />
-      <div>
-        <label>Imagem Customizada (opcional): </label>
-        <input
-          type="file"
-          id="avatar"
-          name="avatar"
-          accept="image/png, image/jpeg"
-          onChange={async (event) => {
-            const files = event.target.files
+            <div>
+              <label>Subtítulo (opcional): </label>
+              <input
+                type="text"
+                onChange={(event) => {
+                  setSubtitleInputValue(event.currentTarget.value)
+                }}
+              />
+            </div>
+            <br />
+          </fieldset>
 
-            if (files && files.length) {
-              const base64 = await toBase64(files[0])
-              if (base64) {
-                setImageInputValue(`${base64}`)
-              }
-            } else {
-              setImageInputValue('')
-            }
-          }}
-        />
-      </div>
-      <br />
-      <div>
-        <label>Bar Code Background Color (opcional): </label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setBarCodeBackgroundColorInputValue(event.currentTarget.value)
-          }}
-        />
-      </div>
-      <br />
-      <div>
-        <label>Bar Code Color (opcional): </label>
-        <select
-          value={barCodeColorInputValue}
-          onChange={(event) => {
-            let color
+          <fieldset>
+            <legend>Conteúdo customizado</legend>
+            <div>
+              <label>Imagem Customizada (opcional): </label>
+              <input
+                type="file"
+                id="avatar"
+                name="avatar"
+                accept="image/png, image/jpeg"
+                onChange={async (event) => {
+                  const files = event.target.files
 
-            switch (event.currentTarget.value) {
-              case 'white':
-                color = event.currentTarget.value
-                break
-              case 'black':
-                color = event.currentTarget.value
-                break
-              default:
-                color = undefined
-                break
-            }
+                  if (files && files.length) {
+                    const base64 = await toBase64(files[0])
+                    if (base64) {
+                      setImageInputValue(`${base64}`)
+                    }
+                  } else {
+                    setImageInputValue('')
+                  }
+                }}
+              />
+            </div>
+            <br />
+            <div>
+              <label>Bar Code Background Color (opcional): </label>
+              <input
+                type="text"
+                onChange={(event) => {
+                  setBarCodeBackgroundColorInputValue(event.currentTarget.value)
+                }}
+              />
+            </div>
+            <br />
+            <div>
+              <label>Bar Code Color (opcional): </label>
+              <select
+                value={barCodeColorInputValue}
+                onChange={(event) => {
+                  let color
 
-            setBarCodeColorInputValue(color)
-          }}
-        >
-          <option value="">-</option>
-          <option value="white">Branco</option>
-          <option value="black">Preto</option>
-        </select>
+                  switch (event.currentTarget.value) {
+                    case 'white':
+                      color = event.currentTarget.value
+                      break
+                    case 'black':
+                      color = event.currentTarget.value
+                      break
+                    default:
+                      color = undefined
+                      break
+                  }
+
+                  setBarCodeColorInputValue(color)
+                }}
+              >
+                <option value="">-</option>
+                <option value="white">Branco</option>
+                <option value="black">Preto</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <br />
+
+          <div>
+            <button onClick={() => handleClickGenerate()}>Generate</button>
+            <button onClick={() => handleClickDownload()}>Download</button>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flex: 2 }}>
+          <PosterContent
+            ref={domRef}
+            urlImage={urlImage}
+            customImage={customImage}
+            title={title}
+            subtitle={subtitle}
+            barCodeBackgroundColor={barCodeBackgroundColorInputValue}
+            barCodeColor={barCodeColorInputValue}
+          />
+        </div>
       </div>
-      <br />
-
-      <div>
-        <button onClick={() => handleClickGenerate()}>Generate</button>
-        <button onClick={() => handleClickDownload()}>Download</button>
-      </div>
-
-      <br />
-      <PosterContent
-        ref={domRef}
-        urlImage={urlImage}
-        customImage={customImage}
-        title={title}
-        subtitle={subtitle}
-        barCodeBackgroundColor={barCodeBackgroundColorInputValue}
-        barCodeColor={barCodeColorInputValue}
-      />
     </div>
   )
 }
