@@ -5,9 +5,11 @@ import CustomImage from './custom-image'
 interface Props {
   urlImage: string
   customImage: string
+  barCodeBackgroundColor?: string
+  barCodeColor?: 'white' | 'black'
 }
 
-const Thumbnail = ({ urlImage, customImage }: Props) => {
+const Thumbnail = ({ urlImage, customImage, barCodeBackgroundColor, barCodeColor }: Props) => {
   const renderDefaultImage = () => (
     <div
       style={{
@@ -20,7 +22,11 @@ const Thumbnail = ({ urlImage, customImage }: Props) => {
     ></div>
   )
 
-  return customImage ? <CustomImage urlImage={urlImage} customImage={customImage} /> : renderDefaultImage()
+  return customImage ? (
+    <CustomImage urlImage={urlImage} customImage={customImage} barCodeBackgroundColor={barCodeBackgroundColor} barCodeColor={barCodeColor} />
+  ) : (
+    renderDefaultImage()
+  )
 }
 
 Thumbnail.displayName = 'Thumbnail'

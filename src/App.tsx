@@ -14,6 +14,8 @@ export default function App() {
   const [titleInputValue, setTitleInputValue] = useState('')
   const [subtitleInputValue, setSubtitleInputValue] = useState('')
   const [imageInputValue, setImageInputValue] = useState('')
+  const [barCodeBackgroundColorInputValue, setBarCodeBackgroundColorInputValue] = useState('')
+  const [barCodeColorInputValue, setBarCodeColorInputValue] = useState<'black' | 'white' | undefined>(undefined)
 
   const [urlImage, setUrlImage] = useState('https://scannables.scdn.co/uri/800/spotify:playlist:37i9dQZF1DX1pl2bOU4cVI')
   const [title, setTitle] = useState('Title')
@@ -104,6 +106,44 @@ export default function App() {
         />
       </div>
       <br />
+      <div>
+        <label>Bar Code Background Color (opcional): </label>
+        <input
+          type="text"
+          onChange={(event) => {
+            setBarCodeBackgroundColorInputValue(event.currentTarget.value)
+          }}
+        />
+      </div>
+      <br />
+      <div>
+        <label>Bar Code Color (opcional): </label>
+        <select
+          value={barCodeColorInputValue}
+          onChange={(event) => {
+            let color
+
+            switch (event.currentTarget.value) {
+              case 'white':
+                color = event.currentTarget.value
+                break
+              case 'black':
+                color = event.currentTarget.value
+                break
+              default:
+                color = undefined
+                break
+            }
+
+            setBarCodeColorInputValue(color)
+          }}
+        >
+          <option value="">-</option>
+          <option value="white">Branco</option>
+          <option value="black">Preto</option>
+        </select>
+      </div>
+      <br />
 
       <div>
         <button onClick={() => handleClickGenerate()}>Generate</button>
@@ -111,7 +151,15 @@ export default function App() {
       </div>
 
       <br />
-      <PosterContent ref={domRef} urlImage={urlImage} customImage={customImage} title={title} subtitle={subtitle} />
+      <PosterContent
+        ref={domRef}
+        urlImage={urlImage}
+        customImage={customImage}
+        title={title}
+        subtitle={subtitle}
+        barCodeBackgroundColor={barCodeBackgroundColorInputValue}
+        barCodeColor={barCodeColorInputValue}
+      />
     </div>
   )
 }

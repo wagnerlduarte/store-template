@@ -8,23 +8,30 @@ interface Props {
   customImage: string
   title: string
   subtitle: string
+  barCodeBackgroundColor?: string
+  barCodeColor?: 'white' | 'black'
 }
 
-const PosterContent = forwardRef<HTMLDivElement, Props>(({ urlImage, customImage, title, subtitle }: Props, ref) => {
-  return (
-    <div ref={ref} style={{ height: 1754, width: 1240, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#17181A' }}>
-      <Thumbnail urlImage={urlImage} customImage={customImage} />
+const PosterContent = forwardRef<HTMLDivElement, Props>(
+  ({ urlImage, customImage, title, subtitle, barCodeBackgroundColor, barCodeColor }: Props, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={{ height: 1754, width: 1240, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#17181A' }}
+      >
+        <Thumbnail urlImage={urlImage} customImage={customImage} barCodeBackgroundColor={barCodeBackgroundColor} barCodeColor={barCodeColor} />
 
-      <div style={{ width: '100%', paddingTop: 80 }}>
-        <Textfit style={{ color: 'white', textAlign: 'center', fontWeight: '900' }} max={97} mode="single">
-          {title}
-        </Textfit>
+        <div style={{ width: '100%', paddingTop: 80 }}>
+          <Textfit style={{ color: 'white', textAlign: 'center', fontWeight: '900' }} max={97} mode="single">
+            {title}
+          </Textfit>
+        </div>
+
+        <span style={{ color: '#bebebe', paddingTop: 50, paddingBottom: 90, fontSize: 75 }}>{subtitle}</span>
       </div>
-
-      <span style={{ color: '#bebebe', paddingTop: 50, paddingBottom: 90, fontSize: 75 }}>{subtitle}</span>
-    </div>
-  )
-})
+    )
+  }
+)
 
 PosterContent.displayName = 'PosterContent'
 

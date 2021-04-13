@@ -6,9 +6,11 @@ import { apiService } from '../api'
 interface Props {
   customImage: string
   urlImage: string
+  barCodeBackgroundColor?: string
+  barCodeColor?: 'white' | 'black'
 }
 
-const CustomImage = ({ customImage, urlImage }: Props) => {
+const CustomImage = ({ customImage, urlImage, barCodeBackgroundColor, barCodeColor }: Props) => {
   const { data: pallete, loading } = usePalette(customImage)
 
   const [customCode, setCustomCode] = useState('')
@@ -19,33 +21,44 @@ const CustomImage = ({ customImage, urlImage }: Props) => {
 
       const palleteProperty: keyof PaletteColors = 'lightVibrant'
 
-      const backgroundBarColor = pallete[palleteProperty]?.replace('#', '') ?? '000000'
+      let backgroundBarColor
 
-      const palleteColor = pallete[palleteProperty]
+      if (barCodeBackgroundColor) {
+        backgroundBarColor = barCodeBackgroundColor
+      } else {
+        backgroundBarColor = pallete[palleteProperty] ?? '000000'
+      }
 
-      const barColor = palleteColor ? getBarColor(palleteColor) : 'white'
+      let barColor
 
-      setCustomCode(`https://scannables.scdn.co/uri/plain/jpeg/${backgroundBarColor}/${barColor}/640/${uri.uriLink}`)
+      if (barCodeColor) {
+        barColor = barCodeColor
+      } else {
+        const palleteColor = pallete[palleteProperty]
+        barColor = palleteColor ? getBarColor(palleteColor) : 'white'
+      }
+
+      setCustomCode(`https://scannables.scdn.co/uri/plain/jpeg/${backgroundBarColor.replace('#', '')}/${barColor}/640/${uri.uriLink}`)
     }
-  }, [pallete, loading])
+  }, [pallete, loading, urlImage, barCodeBackgroundColor, barCodeColor])
 
   return (
     <>
       <div
         style={{
           marginTop: 65,
-          backgroundImage: `url('${customImage}')`,
           background: 'no-repeat center',
           backgroundSize: 'cover',
+          backgroundImage: `url('${customImage}')`,
           height: '64%',
           width: '81%',
         }}
       ></div>
       <div
         style={{
-          backgroundImage: `url('${customCode}')`,
           background: 'no-repeat center',
           backgroundSize: 'cover',
+          backgroundImage: `url('${customCode}')`,
           height: '16%',
           width: '81%',
         }}
