@@ -21,6 +21,7 @@ export default function App() {
   const [title, setTitle] = useState('Title')
   const [subtitle, setSubtitle] = useState('Subtitle')
   const [customImage, setCustomImage] = useState('')
+  const customImageInputRef = React.useRef<HTMLInputElement>(null)
 
   const getUrlImage = useCallback((uri: string) => {
     return `${baseUrl}${uri}`
@@ -50,6 +51,19 @@ export default function App() {
     })
   }, [domRef, title, subtitle])
 
+  const clearForm = useCallback(() => {
+    setUrlInputValue('')
+    setTitleInputValue('')
+    setSubtitleInputValue('')
+    setImageInputValue('')
+    setBarCodeBackgroundColorInputValue('')
+    setBarCodeColorInputValue(undefined)
+    setCustomImage('')
+    if (customImageInputRef.current) {
+      customImageInputRef.current.value = ''
+    }
+  }, [])
+
   return (
     <div className="App">
       <div style={{ display: 'flex' }}>
@@ -60,6 +74,7 @@ export default function App() {
               <label>Spotify Link: </label>
               <input
                 type="text"
+                value={urlInputValue}
                 onChange={(event) => {
                   setUrlInputValue(event.currentTarget.value)
                 }}
@@ -71,6 +86,7 @@ export default function App() {
               <label>Título (opcional): </label>
               <input
                 type="text"
+                value={titleInputValue}
                 onChange={(event) => {
                   setTitleInputValue(event.currentTarget.value)
                 }}
@@ -82,6 +98,7 @@ export default function App() {
               <label>Subtítulo (opcional): </label>
               <input
                 type="text"
+                value={subtitleInputValue}
                 onChange={(event) => {
                   setSubtitleInputValue(event.currentTarget.value)
                 }}
@@ -99,6 +116,7 @@ export default function App() {
                 id="avatar"
                 name="avatar"
                 accept="image/png, image/jpeg"
+                ref={customImageInputRef}
                 onChange={async (event) => {
                   const files = event.target.files
 
@@ -118,6 +136,7 @@ export default function App() {
               <label>Bar Code Background Color (opcional): </label>
               <input
                 type="text"
+                value={barCodeBackgroundColorInputValue}
                 onChange={(event) => {
                   setBarCodeBackgroundColorInputValue(event.currentTarget.value)
                 }}
@@ -127,7 +146,7 @@ export default function App() {
             <div>
               <label>Bar Code Color (opcional): </label>
               <select
-                value={barCodeColorInputValue}
+                value={barCodeColorInputValue ? barCodeColorInputValue : ''}
                 onChange={(event) => {
                   let color
 
@@ -146,7 +165,7 @@ export default function App() {
                   setBarCodeColorInputValue(color)
                 }}
               >
-                <option value="">-</option>
+                <option>-</option>
                 <option value="white">Branco</option>
                 <option value="black">Preto</option>
               </select>
@@ -158,6 +177,7 @@ export default function App() {
           <div>
             <button onClick={() => handleClickGenerate()}>Generate</button>
             <button onClick={() => handleClickDownload()}>Download</button>
+            <button onClick={() => clearForm()}>Clear</button>
           </div>
         </div>
 
